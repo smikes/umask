@@ -96,8 +96,14 @@ describe('umask from string', function () {
     it('converts valid values', function (done) {
         expect(umask.fromString("0000")).to.equal(0);
         expect(umask.fromString("0")).to.equal(0);
+        expect(umask.fromString("010")).to.equal(8);
         expect(umask.fromString("0777")).to.equal(511);
         expect(umask.fromString("0024")).to.equal(20);
+
+        expect(umask.fromString("8")).to.equal(8);
+        expect(umask.fromString("9")).to.equal(9);
+        expect(umask.fromString("18")).to.equal(18);
+        expect(umask.fromString("16")).to.equal(16);
 
         expect(umask.fromString(0)).to.equal(0);
         expect(umask.fromString(20)).to.equal(20);
@@ -110,6 +116,14 @@ describe('umask from string', function () {
     it('errors on empty string', function (done) {
         umask.fromString("", function (err, val) {
             expect(err.message).to.equal('Expected octal string, got "", defaulting to "0022"');
+            expect(val).to.equal(18);
+            done();
+        });
+    });
+
+    it('errors on invalid octal string', function (done) {
+        umask.fromString("099", function (err, val) {
+            expect(err.message).to.equal('Expected octal string, got "099", defaulting to "0022"');
             expect(val).to.equal(18);
             done();
         });

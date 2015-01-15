@@ -33,13 +33,17 @@ function validate(data, k, val) {
 
 function convert_fromString(val, cb) {
     if (typeof val === "string") {
-        if (!/^[0-7]+$/.test(val)) {
+        // check for octal string first
+        if (val.charAt(0) === '0' && /^[0-7]+$/.test(val)) {
+            val = parseInt(val, 8);
+        } else if (val.charAt(0) !== '0' && /^[0-9]+$/.test(val)) {
+            // legacy support for decimal strings
+            val = parseInt(val, 10);
+        } else {
             return cb(new Error(util.format("Expected octal string, got %j, defaulting to %j",
                                             val, defaultUmaskString)),
                       defaultUmask);
         }
-
-        val = parseInt(val, 8);
     } else if (typeof val !== "number") {
         return cb(new Error(util.format("Expected number or octal string, got %j, defaulting to %j",
                                         val, defaultUmaskString)),
