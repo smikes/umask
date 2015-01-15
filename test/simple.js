@@ -110,6 +110,9 @@ describe('umask from string', function () {
         expect(umask.fromString(21)).to.equal(21);
         expect(umask.fromString(511)).to.equal(511);
 
+        expect(umask.fromString(0.1)).to.equal(0);
+        expect(umask.fromString(511.1)).to.equal(511);
+
         done();
     });
 

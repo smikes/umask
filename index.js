@@ -50,6 +50,8 @@ function convert_fromString(val, cb) {
                   defaultUmask);
     }
 
+    val = Math.floor(val);
+
     if ((val < 0) || (val > 511)) {
         return cb(new Error(util.format("Must be in range 0..511 (0000..0777), got %j", val)),
                   defaultUmask);
