@@ -65,9 +65,6 @@ function fromString(val, cb) {
     return val;
 }
 
-//    if (err) log.warn("invalid umask", err.message)
-
-
 exports.toString = toString;
 exports.fromString = fromString;
 exports.validate = validate;
